@@ -10,8 +10,8 @@ class MapaTotal extends JFrame {
     String ciudad;
 
     public MapaTotal(String ciudad) {
-        this.rectangulos = MapaPuntos.getRectangulos(ciudad);
-        this.ventas = MapaPuntos.getVentas(ciudad);
+        this.rectangulos = MapaTotal.getRectangulos(ciudad);
+        this.ventas = MapaTotal.getVentas(ciudad);
         this.ciudad = ciudad;
         initComponents();
     }
@@ -31,6 +31,9 @@ class MapaTotal extends JFrame {
             add(new Rectangulo(0, 0, 30, 30));
             add(new Rectangulo(50, 50, 200, 200));
             add(new Rectangulo(400, 400, 100, 100));
+            add(new Rectangulo(120, 340, 50, 50));
+            add(new Rectangulo(400, 100, 100, 30));
+            add(new Rectangulo(40, 390, 40, 100));
         }};
     }
 
@@ -40,6 +43,11 @@ class MapaTotal extends JFrame {
             add(new Venta(10, 10, 5));
             add(new Venta(10, 10, 10));
             add(new Venta(50, 50, 100));
+            add(new Venta(405, 405, 10));
+            add(new Venta(499, 499, 12));
+            add(new Venta(54, 400, 100));
+            add(new Venta(499, 0, 52));
+            add(new Venta(251, 251, 32));
         }};
     }
 
@@ -60,13 +68,23 @@ class MapaTotal extends JFrame {
             g.drawRect(50,50,500,500);
 
             for (Rectangulo rectangulo:rectangulos){
+                int totalLocal = 0;
                 g.drawRect(rectangulo.x + 50, rectangulo.y + 50, rectangulo.width, rectangulo.height); // tiene offset
+                for (int i = 0; i < ventas.size(); i++){
+                    if(rectangulo.contieneVenta(ventas.get(i))){
+                        totalLocal += ventas.get(i).v;
+                        ventas.remove(i);
+                        i--;
+                    }
+                }
+                g.drawString("$" + totalLocal, rectangulo.x + 50 + 5, rectangulo.y + 50 + (rectangulo.height/2));
             }
-            ArrayList<Venta> ventasPorPunto = Venta.listaVentas(ventas);
-            for (Venta venta:ventasPorPunto) {
-                g.drawString("$" + venta.v, venta.x - 5 + 50, venta.y - 3 + 50);
-                g.fillOval(venta.x + 50, venta.y + 50, 7, 7);
+
+            int totalFuera = 0;
+            for (Venta venta:ventas) {
+                totalFuera += venta.v;
             }
+            g.drawString("Total de ventas por fuera de los locales: $" + totalFuera, 100, 30);
         }
     }
 }

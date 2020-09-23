@@ -23,6 +23,11 @@ class Rectangulo {
         return true;
     }
 
+    public boolean contieneVenta(Venta venta) {
+        return (venta.x >= this.x && venta.x <= this.x + this.width) &&
+                (venta.y >= this.y && venta.y <= this.y + this.height);
+    }
+
     public boolean seCruzaConAlguno(ArrayList<Rectangulo> rectangulos){
         for (Rectangulo rectangulo1:rectangulos){
             if (this.seCruza(rectangulo1)){
