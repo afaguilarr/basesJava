@@ -1,0 +1,2 @@
+class SeCruzanException extends Exception {
+}
