@@ -17,7 +17,7 @@ class MapaTotal extends JFrame {
     }
 
     private void initComponents() {
-        content = new Content(this.rectangulos, this.ventas);
+        content = new Content2(this.rectangulos, this.ventas);
         content.setBackground(new java.awt.Color(255, 255, 255));
         content.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         this.setContentPane(content);
@@ -27,7 +27,7 @@ class MapaTotal extends JFrame {
 
     static ArrayList<Rectangulo> getRectangulos(String ciudad){
         // Aqui se van a traer los rectangulos de la ciudad, esto es un mock
-        return new ArrayList<>() {{
+        return new ArrayList<Rectangulo>() {{
             add(new Rectangulo(0, 0, 30, 30));
             add(new Rectangulo(50, 50, 200, 200));
             add(new Rectangulo(400, 400, 100, 100));
@@ -39,7 +39,7 @@ class MapaTotal extends JFrame {
 
     static ArrayList<Venta> getVentas(String ciudad){
         // Aqui se van a traer los rectangulos de la ciudad, esto es un mock
-        return new ArrayList<>() {{
+        return new ArrayList<Venta>() {{
             add(new Venta(10, 10, 5));
             add(new Venta(10, 10, 10));
             add(new Venta(50, 50, 100));
@@ -51,11 +51,11 @@ class MapaTotal extends JFrame {
         }};
     }
 
-    static class Content extends JPanel {
+    static class Content2 extends JPanel {
         ArrayList<Rectangulo> rectangulos;
         ArrayList<Venta> ventas;
 
-        Content(ArrayList<Rectangulo> rectangulos, ArrayList<Venta> ventas) {
+        Content2(ArrayList<Rectangulo> rectangulos, ArrayList<Venta> ventas) {
             this.rectangulos = rectangulos;
             this.ventas = ventas;
             setPreferredSize(new Dimension(600,600));

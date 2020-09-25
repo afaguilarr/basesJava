@@ -27,7 +27,7 @@ class MapaPuntos extends JFrame {
 
     static ArrayList<Rectangulo> getRectangulos(String ciudad){
         // Aqui se van a traer los rectangulos de la ciudad, esto es un mock
-        return new ArrayList<>() {{
+        return new ArrayList<Rectangulo>() {{
             add(new Rectangulo(0, 0, 30, 30));
             add(new Rectangulo(50, 50, 200, 200));
             add(new Rectangulo(400, 400, 100, 100));
@@ -36,7 +36,7 @@ class MapaPuntos extends JFrame {
 
     static ArrayList<Venta> getVentas(String ciudad){
         // Aqui se van a traer los rectangulos de la ciudad, esto es un mock
-        return new ArrayList<>() {{
+        return new ArrayList<Venta>() {{
             add(new Venta(10, 10, 5));
             add(new Venta(10, 10, 10));
             add(new Venta(50, 50, 100));
@@ -55,6 +55,7 @@ class MapaPuntos extends JFrame {
 
         @Override
         public void paintComponent(Graphics g) {
+            // calculos afuera y pintadas adentro
             super.paintComponent(g);
 
             g.drawRect(50,50,500,500);
