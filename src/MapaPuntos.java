@@ -25,7 +25,7 @@ class MapaPuntos extends JFrame {
         pack();
     }
 
-    static ArrayList<Rectangulo> getRectangulos(String ciudad){
+    static ArrayList<Rectangulo> getRectangulos(String ciudad) {
         // Aqui se van a traer los rectangulos de la ciudad, esto es un mock
         return new ArrayList<Rectangulo>() {{
             add(new Rectangulo(0, 0, 30, 30));
@@ -34,13 +34,8 @@ class MapaPuntos extends JFrame {
         }};
     }
 
-    static ArrayList<Venta> getVentas(String ciudad){
-        // Aqui se van a traer los rectangulos de la ciudad, esto es un mock
-        return new ArrayList<Venta>() {{
-            add(new Venta(10, 10, 5));
-            add(new Venta(10, 10, 10));
-            add(new Venta(50, 50, 100));
-        }};
+    static ArrayList<Venta> getVentas(String ciudad) {
+        return Database.getVentas(ciudad);
     }
 
     static class Content extends JPanel {
@@ -50,7 +45,7 @@ class MapaPuntos extends JFrame {
         Content(ArrayList<Rectangulo> rectangulos, ArrayList<Venta> ventas) {
             this.rectangulos = rectangulos;
             this.ventas = ventas;
-            setPreferredSize(new Dimension(600,600));
+            setPreferredSize(new Dimension(600, 600));
         }
 
         @Override
@@ -58,13 +53,13 @@ class MapaPuntos extends JFrame {
             // calculos afuera y pintadas adentro
             super.paintComponent(g);
 
-            g.drawRect(50,50,500,500);
+            g.drawRect(50, 50, 500, 500);
 
-            for (Rectangulo rectangulo:rectangulos){
+            for (Rectangulo rectangulo : rectangulos) {
                 g.drawRect(rectangulo.x + 50, rectangulo.y + 50, rectangulo.width, rectangulo.height); // tiene offset
             }
             ArrayList<Venta> ventasPorPunto = Venta.listaVentas(ventas);
-            for (Venta venta:ventasPorPunto) {
+            for (Venta venta : ventasPorPunto) {
                 g.drawString("$" + venta.v, venta.x - 5 + 50, venta.y - 3 + 50);
                 g.fillOval(venta.x + 50, venta.y + 50, 7, 7);
             }
