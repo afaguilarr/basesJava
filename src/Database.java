@@ -1,5 +1,3 @@
-import com.sun.javaws.jnl.XMLFormat;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -47,8 +45,8 @@ public class Database {
 
             resultado = sentencia.executeQuery(query);
             while (resultado.next()) {
-                int codigo_vendedor = resultado.getInt("CodigoVendedor");
-                String ciudad2 = resultado.getString("Ciudad");
+//                int codigo_vendedor = resultado.getInt("CodigoVendedor");
+//                String ciudad2 = resultado.getString("Ciudad");
                 int x = resultado.getInt("x");
                 int y = resultado.getInt("y");
                 int v = resultado.getInt("v");
@@ -64,6 +62,27 @@ public class Database {
                     e.getMessage());
         }
         return null;
+    }
+
+    static void insertVentas(int codigoVendedor, String ciudad, ArrayList<Venta> listaVentas) {
+
+        String ventasSQLstring = Venta.getVentasSQLString(listaVentas);
+        System.out.println(ventasSQLstring);
+
+        startConnection();
+
+        try {
+            System.out.println("Insertando ventas...");
+            String query = String.format("INSERT INTO VVCITY VALUES(%s,'%s',%s)", codigoVendedor, ciudad, ventasSQLstring);
+            System.out.println("Executing query " + query);
+            resultado = sentencia.executeQuery(query);
+            closeConnection();
+
+        } catch (SQLException e) {
+            System.out.println("Error in insert ventas");
+            System.out.println("Error: " +
+                    e.getMessage());
+        }
     }
 
 

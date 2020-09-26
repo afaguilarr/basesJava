@@ -3,16 +3,10 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
-class MapaPuntos extends JFrame {
-    private JPanel content;
-    ArrayList<Rectangulo> rectangulos;
-    ArrayList<Venta> ventas;
-    String ciudad;
+class MapaPuntos extends Mapa {
 
     public MapaPuntos(String ciudad) {
-        this.rectangulos = MapaPuntos.getRectangulos(ciudad);
-        this.ventas = MapaPuntos.getVentas(ciudad);
-        this.ciudad = ciudad;
+        super(ciudad);
         initComponents();
     }
 
@@ -23,19 +17,6 @@ class MapaPuntos extends JFrame {
         this.setContentPane(content);
         this.setTitle("Mapa de " + ciudad);
         pack();
-    }
-
-    static ArrayList<Rectangulo> getRectangulos(String ciudad) {
-        // Aqui se van a traer los rectangulos de la ciudad, esto es un mock
-        return new ArrayList<Rectangulo>() {{
-            add(new Rectangulo(0, 0, 30, 30));
-            add(new Rectangulo(50, 50, 200, 200));
-            add(new Rectangulo(400, 400, 100, 100));
-        }};
-    }
-
-    static ArrayList<Venta> getVentas(String ciudad) {
-        return Database.getVentas(ciudad);
     }
 
     static class Content extends JPanel {

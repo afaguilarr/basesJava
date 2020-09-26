@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 class Vista1 {
-    public static void vista1 () {
+    public static void vista1() {
         JFrame framePrincipal = new JFrame("Menu principal");  //creating instance of JFrame
         JFrame frameLocales = new JFrame("Ingreso de datos de los locales de una ciudad");  //creating instance of JFrame
         JFrame frameVentas = new JFrame("Ingreso de datos de las ventas de un vendedor en una ciudad");  //creating instance of JFrame
@@ -13,8 +14,8 @@ class Vista1 {
 
         JButton volver = new JButton("< Volver");  //creating instance of JButton
         volver.setBounds(300, 800, 100, 50);  //x axis, y axis, width, height
-        volver.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        volver.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 frameLocales.setVisible(false);
                 frameVentas.setVisible(false);
                 frameMapaPuntos.setVisible(false);
@@ -25,8 +26,8 @@ class Vista1 {
 
         JButton datosLocales = new JButton("Ingreso de datos de los locales de una ciudad");  //creating instance of JButton
         datosLocales.setBounds(250, 200, 500, 50);  //x axis, y axis, width, height
-        datosLocales.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        datosLocales.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 framePrincipal.setVisible(false);
                 frameLocales.setVisible(true);
                 frameLocales.add(volver);
@@ -35,8 +36,8 @@ class Vista1 {
 
         JButton datosVentas = new JButton("Ingreso de datos de las ventas de un vendedor en una ciudad");  //creating instance of JButton
         datosVentas.setBounds(250, 400, 500, 50);  //x axis, y axis, width, height
-        datosVentas.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        datosVentas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 framePrincipal.setVisible(false);
                 frameVentas.setVisible(true);
                 frameVentas.add(volver);
@@ -45,8 +46,8 @@ class Vista1 {
 
         JButton mapaPuntos = new JButton("Mapa de puntos de ventas");  //creating instance of JButton
         mapaPuntos.setBounds(250, 600, 500, 50);  //x axis, y axis, width, height
-        mapaPuntos.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        mapaPuntos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 framePrincipal.setVisible(false);
                 frameMapaPuntos.setVisible(true);
                 frameMapaPuntos.add(volver);
@@ -55,8 +56,8 @@ class Vista1 {
 
         JButton mapaTotal = new JButton("Mapa de total de ventas");  //creating instance of JButton
         mapaTotal.setBounds(250, 800, 500, 50);  //x axis, y axis, width, height
-        mapaTotal.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        mapaTotal.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 framePrincipal.setVisible(false);
                 frameMapaTotales.setVisible(true);
                 frameMapaTotales.add(volver);
@@ -69,26 +70,26 @@ class Vista1 {
         framePrincipal.add(mapaTotal);  //adding button in JFrame
 
         JLabel labelLocales = new JLabel("Ingrese los locales de la ciudad:");
-        labelLocales.setBounds(120,100, 300,30);
+        labelLocales.setBounds(120, 100, 300, 30);
         JTextArea locales = new JTextArea();
-        locales.setBounds(100,135, 400,600);
+        locales.setBounds(100, 135, 400, 600);
 
         JLabel labelNombreCiudad = new JLabel("Ingrese el nombre de la ciudad:");
-        labelNombreCiudad.setBounds(620,445, 300,30);
+        labelNombreCiudad.setBounds(620, 445, 300, 30);
         JTextField nombreCiudad = new JTextField();
-        nombreCiudad.setBounds(600,480, 300,40);
+        nombreCiudad.setBounds(600, 480, 300, 40);
 
         JButton ingresarLocal = new JButton("Ingresar");  //creating instance of JButton
         ingresarLocal.setBounds(600, 800, 100, 50);  //x axis, y axis, width, height  //x axis, y axis, width, height
-        ingresarLocal.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                try{
+        ingresarLocal.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
                     XMLParser.xmlParser(locales.getText());
                     System.out.println(nombreCiudad.getText());
                     nombreCiudad.setText("");
                     locales.setText("");
                     JOptionPane.showMessageDialog(frameLocales, "La información fue guardada correctamente");
-                }   catch (SeCruzanException seCruzanException){
+                } catch (SeCruzanException seCruzanException) {
                     JOptionPane.showMessageDialog(frameLocales, "No se ha podido guardar, los locales se cruzan");
                 } catch (Exception exception) {
                     JOptionPane.showMessageDialog(frameLocales, "No se ha podido guardar, formato incorrecto");
@@ -103,31 +104,31 @@ class Vista1 {
         frameLocales.add(locales);  //adding button in JFrame
 
         JLabel labelVentas = new JLabel("Ingrese las ventas:");
-        labelVentas.setBounds(120,100, 300,30);
+        labelVentas.setBounds(120, 100, 300, 30);
         JTextArea ventas = new JTextArea();
-        ventas.setBounds(100,135, 400,600);
+        ventas.setBounds(100, 135, 400, 600);
 
         JLabel labelCodigoVendedor = new JLabel("Ingrese el código de vendedor:");
-        labelCodigoVendedor.setBounds(620,245, 300,30);
+        labelCodigoVendedor.setBounds(620, 245, 300, 30);
         JTextField codigoVendedor = new JTextField();
-        codigoVendedor.setBounds(600,280, 300,20);
+        codigoVendedor.setBounds(600, 280, 300, 20);
 
         JLabel labelCiudad = new JLabel("Seleccione la ciudad:");
-        labelCiudad.setBounds(620,445, 300,30);
-        JComboBox ciudad = new JComboBox(new String[] {"Medellin", "Cali", "Bogota"}); // Mockeado
-        ciudad.setBounds(600,480, 300,40);
+        labelCiudad.setBounds(620, 445, 300, 30);
+        JComboBox ciudad = new JComboBox(new String[]{"Medellin", "Cali", "Bogota"}); // Mockeado
+        ciudad.setBounds(600, 480, 300, 40);
 
         JButton ingresarVendedor = new JButton("Ingresar");  //creating instance of JButton
         ingresarVendedor.setBounds(600, 800, 100, 50);  //x axis, y axis, width, height  //x axis, y axis, width, height
-        ingresarVendedor.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        ingresarVendedor.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 try {
+                    int codigoVendedorIngresado = Integer.parseInt(codigoVendedor.getText());
+                    String ciudadIngresada = Objects.requireNonNull(ciudad.getSelectedItem()).toString();
                     ArrayList<Venta> listaVentas = Venta.listaVentas(ventas.getText());
-                    for (Venta venta : listaVentas) {
-                        System.out.println(venta.x + ", " + venta.y + ", " + venta.v);
-                    }
-                    System.out.println(Integer.parseInt(codigoVendedor.getText()));
-                    System.out.println(ciudad.getSelectedItem());
+
+                    Database.insertVentas(codigoVendedorIngresado, ciudadIngresada, listaVentas);
+
                     codigoVendedor.setText("");
                     ventas.setText("");
                     ciudad.setSelectedIndex(0);
@@ -147,14 +148,14 @@ class Vista1 {
         frameVentas.add(ciudad);  //adding button in JFrame
 
         JLabel labelCiudad2 = new JLabel("Seleccione la ciudad:");
-        labelCiudad2.setBounds(370,445, 300,30);
-        JComboBox ciudad2 = new JComboBox(new String[] {"Medellin", "Cali", "Bogota"}); // Mockeado
-        ciudad2.setBounds(350,480, 300,40);
+        labelCiudad2.setBounds(370, 445, 300, 30);
+        JComboBox ciudad2 = new JComboBox(new String[]{"Medellin", "Cali", "Bogota"}); // Mockeado
+        ciudad2.setBounds(350, 480, 300, 40);
 
         JButton generar = new JButton("Generar");  //creating instance of JButton
         generar.setBounds(600, 800, 100, 50); //x axis, y axis, width, height
-        generar.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        generar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 new MapaPuntos(ciudad2.getSelectedItem().toString()).setVisible(true);
             }
         });
@@ -164,14 +165,14 @@ class Vista1 {
         frameMapaPuntos.add(generar);
 
         JLabel labelCiudad3 = new JLabel("Seleccione la ciudad:");
-        labelCiudad3.setBounds(370,445, 300,30);
-        JComboBox ciudad3 = new JComboBox(new String[] {"Medellin", "Cali", "Bogota"}); // Mockeado
-        ciudad3.setBounds(350,480, 300,40);
+        labelCiudad3.setBounds(370, 445, 300, 30);
+        JComboBox ciudad3 = new JComboBox(new String[]{"Medellin", "Cali", "Bogota"}); // Mockeado
+        ciudad3.setBounds(350, 480, 300, 40);
 
         JButton generar2 = new JButton("Generar");  //creating instance of JButton
         generar2.setBounds(600, 800, 100, 50); //x axis, y axis, width, height
-        generar2.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        generar2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 new MapaTotal(ciudad3.getSelectedItem().toString()).setVisible(true);
             }
         });

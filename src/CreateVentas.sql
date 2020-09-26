@@ -47,8 +47,6 @@ INSERT INTO VVCITY VALUES(9, 'Medellin',
 /
 
 -- Ejemplos Select
-SELECT CodigoVendedor, Ciudad, Tventas.*
-FROM VVCITY, TABLE(VVCITY.Ventas) Tventas;
+SELECT CodigoVendedor, Ciudad, Tventas.* FROM VVCITY, TABLE(VVCITY.Ventas) Tventas;
 
-SELECT CodigoVendedor, Ciudad, Tventas.*
-FROM VVCITY, TABLE(VVCITY.Ventas) Tventas WHERE ciudad = 'Medellin';
+SELECT CodigoVendedor, Ciudad, Tventas.* FROM VVCITY, TABLE(VVCITY.Ventas) Tventas WHERE ciudad = 'Medellin';
