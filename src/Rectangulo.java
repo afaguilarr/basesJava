@@ -3,6 +3,7 @@ import java.util.ArrayList;
 class Rectangulo {
     int[] supDer, infIzq;
     int x, y, height, width;
+    int total;
 
     Rectangulo(int x, int y, int width, int height) {
         this.supDer = new int[]{x + width, y};
@@ -35,5 +36,9 @@ class Rectangulo {
             }
         }
         return false;
+    }
+
+    public void setTotalLocal(int total) {
+        this.total = total;
     }
 }
