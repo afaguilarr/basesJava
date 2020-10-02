@@ -1,3 +1,4 @@
+import javax.xml.transform.dom.DOMSource;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -13,14 +14,16 @@ public class Database {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (Exception e) {
             System.out.println("No se pudo cargar el driver JDBC");
+            System.out.println(e);
             return;
         }
         try { // Se establece la conexión con la base de datos
             conn = DriverManager.getConnection
-                    ("jdbc:oracle:thin:@localhost:1521:xe", "gato", "gato");
+                    ("jdbc:oracle:thin:@DESKTOP-ARFSUQM:1521:xe", "acaros", "Incubus1991");
             sentencia = conn.createStatement();
         } catch (SQLException e) {
             System.out.println("No hay conexión con la base de datos.");
+            System.out.println(e);
         }
     }
 
@@ -60,6 +63,7 @@ public class Database {
             System.out.println("Error in select ventas");
             System.out.println("Error: " +
                     e.getMessage());
+            closeConnection();
         }
         return null;
     }
@@ -82,11 +86,43 @@ public class Database {
             System.out.println("Error in insert ventas");
             System.out.println("Error: " +
                     e.getMessage());
+            closeConnection();
         }
+    }
+    static ArrayList<Rectangulo> getLocales(String ciudad) {
+        startConnection();
+
+        try {
+            System.out.println("Consultando locales...");
+            ArrayList<Rectangulo> locales = new ArrayList<>();
+
+            String query= String.format("SELECT Nombre_ciudad, EXTRACTVALUE(doc,'/figuras/rectangulo/a') AS a,EXTRACTVALUE(doc,'/figuras/rectangulo/b') AS b,EXTRACTVALUE(doc,'/figuras/rectangulo/c') AS c,EXTRACTVALUE(doc,'/figuras/rectangulo/d') AS d FROM figura " +
+            "FROM CITY WHERE Nombre_ciudad = '%s'", ciudad);
+            resultado = sentencia.executeQuery(query);
+            while (resultado.next())
+            {
+                locales.add(new Rectangulo(resultado.getInt("a"), resultado.getInt("b"), resultado.getInt("c"),resultado.getInt("d")));
+
+            }
+
+            System.out.println( "Locales");
+            System.out.println( locales);
+
+            closeConnection();
+            return locales;
+
+        } catch (SQLException e) {
+            System.out.println("Error in select ventas");
+            System.out.println("Error: " +
+                    e.getMessage());
+            closeConnection();
+        }
+        return null;
     }
 
 
-    public void insertarLocales(String nombreCiudad, String XML) {
+    //static void insertarLocales(String nombreCiudad, String XML) {
+        static public void insertarLocales(String nombreCiudad, DOMSource XML) {
         startConnection();
 
         try {
@@ -100,6 +136,25 @@ public class Database {
         } catch (SQLException e) {
             System.out.println("Error: " +
                     e.getMessage());
+            closeConnection();
+        }
+    }
+    //static void insertarLocales(String nombreCiudad, String XML) {
+    static public void updateLocales(String nombreCiudad, DOMSource XML) {
+        startConnection();
+
+        try {
+            System.out.println("Ingresando...");
+            resultado = sentencia.executeQuery
+                    (String.format("UPDATE FROM CITY set VALUES (%s, %s)  WHERE Nombre_ciudad = '%s'", nombreCiudad, XML));
+
+            System.out.println("Consulta finalizada.");
+            closeConnection();
+
+        } catch (SQLException e) {
+            System.out.println("Error: " +
+                    e.getMessage());
+            closeConnection();
         }
     }
 }

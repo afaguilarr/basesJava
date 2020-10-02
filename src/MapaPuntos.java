@@ -7,6 +7,7 @@ class MapaPuntos extends Mapa {
 
     public MapaPuntos(String ciudad) {
         super(ciudad);
+       // calcularPuntos();
         initComponents();
     }
 
