@@ -4,26 +4,51 @@ import org.w3c.dom.Element;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 class XMLParser {
 
-    public static DOMSource xmlParser(String locales) throws SeCruzanException, TransformerException, ParserConfigurationException {
-        String[] lineas = locales.split("\n");
+    public static String xmlParser(String localesIngresados, ArrayList<Rectangulo> localesExistentes) throws SeCruzanException, TransformerException, ParserConfigurationException {
+        String[] lineas = localesIngresados.split("\n");
 
-        ArrayList<Rectangulo> rectangulos = new ArrayList<>();
+        ArrayList<Rectangulo> locales = new ArrayList<>(localesExistentes);
 
         DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
         Document document = documentBuilder.newDocument();
 
+        StringWriter sw = new StringWriter();
+
         Element root = document.createElement("locales");
         document.appendChild(root);
+
+        for (Rectangulo local: locales){
+            Element tagRectangulo = document.createElement("rectangulo");
+            root.appendChild(tagRectangulo);
+
+            Element a = document.createElement("a");
+            a.appendChild(document.createTextNode(Integer.toString(local.x)));
+            tagRectangulo.appendChild(a);
+
+            Element b = document.createElement("b");
+            b.appendChild(document.createTextNode(Integer.toString(local.y)));
+            tagRectangulo.appendChild(b);
+
+            Element c = document.createElement("c");
+            c.appendChild(document.createTextNode(Integer.toString(local.width)));
+            tagRectangulo.appendChild(c);
+
+            Element d = document.createElement("d");
+            d.appendChild(document.createTextNode(Integer.toString(local.height)));
+            tagRectangulo.appendChild(d);
+        }
 
         for (String linea: lineas){
             String[] valores = linea.split(", ");
@@ -36,11 +61,11 @@ class XMLParser {
             Rectangulo rectangulo = new Rectangulo(Integer.parseInt(x), Integer.parseInt(y),
                     Integer.parseInt(width), Integer.parseInt(height));
 
-            if (rectangulo.seCruzaConAlguno(rectangulos)){
+            if (rectangulo.seCruzaConAlguno(locales)){
                 throw new SeCruzanException();
             }
 
-            rectangulos.add(rectangulo);
+            locales.add(rectangulo);
 
             Element tagRectangulo = document.createElement("rectangulo");
             root.appendChild(tagRectangulo);
@@ -65,6 +90,7 @@ class XMLParser {
         //transform the DOM Object to an XML File
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         DOMSource domSource = new DOMSource(document);
         // StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 
@@ -76,6 +102,8 @@ class XMLParser {
         transformer.transform(domSource, result);
 
         System.out.println("Done creating XML File");
-        return domSource;
+
+        transformer.transform(domSource, new StreamResult(sw));
+        return sw.toString();
     }
 }

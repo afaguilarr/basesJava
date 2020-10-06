@@ -22,7 +22,7 @@ OBJECT(
 
 DROP TABLE VVCITY;
 CREATE TABLE VVCITY OF vvcity_type
-(CodigoVendedor PRIMARY KEY) 
+(PRIMARY KEY (CodigoVendedor, Ciudad))
 NESTED TABLE Ventas STORE AS store_ventas;
 /
 
@@ -46,7 +46,22 @@ INSERT INTO VVCITY VALUES(9, 'Medellin',
                         );
 /
 
+--Update
+UPDATE VVCITY
+SET Ventas = nest_venta(
+                 venta_type(4,10,10),
+                 venta_type(3,5,50),
+                 venta_type(3,2,50),
+                 venta_type(3,3,70)
+                 )
+WHERE CodigoVendedor = 8  AND Ciudad = 'Medellin'
+/
+
+UPDATE VVCITY SET Ventas = %s WHERE CodigoVendedor = %s  AND Ciudad = '%s'
+/
+
 -- Ejemplos Select
 SELECT CodigoVendedor, Ciudad, Tventas.* FROM VVCITY, TABLE(VVCITY.Ventas) Tventas;
 
-SELECT CodigoVendedor, Ciudad, Tventas.* FROM VVCITY, TABLE(VVCITY.Ventas) Tventas WHERE ciudad = 'Medellin';
+SELECT CodigoVendedor, Ciudad, Tventas.* FROM VVCITY, TABLE(VVCITY.Ventas) Tventas WHERE Ciudad = 'Medellin' AND CodigoVendedor = 8;
+

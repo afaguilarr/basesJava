@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 class Vista1 {
+    public static ArrayList<String> ciudadesActuales = Database.getCiudades();
+    public static JComboBox ciudad2 = new JComboBox(ciudadesActuales.toArray());
+    public static JComboBox ciudad = new JComboBox(ciudadesActuales.toArray());
+    public static JComboBox ciudad3 = new JComboBox(ciudadesActuales.toArray());
+
     public static void vista1() {
         JFrame framePrincipal = new JFrame("Menu principal");  //creating instance of JFrame
         JFrame frameLocales = new JFrame("Ingreso de datos de los locales de una ciudad");  //creating instance of JFrame
@@ -84,9 +89,28 @@ class Vista1 {
         ingresarLocal.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String ciudad = nombreCiudad.getText();
-                    Database.getLocales(ciudad);
-                    Database.insertarLocales(ciudad,  XMLParser.xmlParser(locales.getText()));
+                    String ciudadIngresada = nombreCiudad.getText();
+                    ArrayList<Rectangulo> localesExistentes = Database.getLocales(ciudadIngresada);
+
+                    if (localesExistentes.isEmpty()) {
+                        Database.insertarLocales(ciudadIngresada, XMLParser.xmlParser(locales.getText(), localesExistentes));
+                    } else {
+                        Database.updateLocales(ciudadIngresada, XMLParser.xmlParser(locales.getText(), localesExistentes));
+                    }
+
+                    // Update ciudades y dropdowns
+                    ciudadesActuales = Database.getCiudades();
+
+                    ciudad.removeAllItems();
+                    ciudad2.removeAllItems();
+                    ciudad3.removeAllItems();
+
+                    for (String ciudadActual : ciudadesActuales) {
+                        ciudad.addItem(ciudadActual);
+                        ciudad2.addItem(ciudadActual);
+                        ciudad3.addItem(ciudadActual);
+                    }
+
                     nombreCiudad.setText("");
                     locales.setText("");
 
@@ -117,7 +141,6 @@ class Vista1 {
 
         JLabel labelCiudad = new JLabel("Seleccione la ciudad:");
         labelCiudad.setBounds(620, 445, 300, 30);
-        JComboBox ciudad = new JComboBox(new String[]{"Medellin", "Cali", "Bogota"}); // Mockeado
         ciudad.setBounds(600, 480, 300, 40);
 
         JButton ingresarVendedor = new JButton("Ingresar");  //creating instance of JButton
@@ -127,9 +150,14 @@ class Vista1 {
                 try {
                     int codigoVendedorIngresado = Integer.parseInt(codigoVendedor.getText());
                     String ciudadIngresada = Objects.requireNonNull(ciudad.getSelectedItem()).toString();
-                    ArrayList<Venta> listaVentas = Venta.listaVentas(ventas.getText());
+                    ArrayList<Venta> ventasExistentes = Database.getVentas(ciudadIngresada, codigoVendedorIngresado);
+                    ArrayList<Venta> ventasNuevas = Venta.listaVentas(ventas.getText(), ventasExistentes);
 
-                    Database.insertVentas(codigoVendedorIngresado, ciudadIngresada, listaVentas);
+                    if (ventasExistentes.isEmpty()) {
+                        Database.insertVentas(codigoVendedorIngresado, ciudadIngresada, ventasNuevas);
+                    } else {
+                        Database.updateVentas(codigoVendedorIngresado, ciudadIngresada, ventasNuevas);
+                    }
 
                     codigoVendedor.setText("");
                     ventas.setText("");
@@ -151,7 +179,6 @@ class Vista1 {
 
         JLabel labelCiudad2 = new JLabel("Seleccione la ciudad:");
         labelCiudad2.setBounds(370, 445, 300, 30);
-        JComboBox ciudad2 = new JComboBox(new String[]{"Medellin", "Cali", "Bogota"}); // Mockeado
         ciudad2.setBounds(350, 480, 300, 40);
 
         JButton generar = new JButton("Generar");  //creating instance of JButton
@@ -168,7 +195,6 @@ class Vista1 {
 
         JLabel labelCiudad3 = new JLabel("Seleccione la ciudad:");
         labelCiudad3.setBounds(370, 445, 300, 30);
-        JComboBox ciudad3 = new JComboBox(new String[]{"Medellin", "Cali", "Bogota"}); // Mockeado
         ciudad3.setBounds(350, 480, 300, 40);
 
         JButton generar2 = new JButton("Generar");  //creating instance of JButton

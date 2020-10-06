@@ -17,9 +17,9 @@ class Venta {
         this.v += venta.v;
     }
 
-    public static ArrayList<Venta> listaVentas(String ventasFormulario) {
+    public static ArrayList<Venta> listaVentas(String ventasFormulario, ArrayList<Venta> ventasExistentes) {
+        ArrayList<Venta> ventas = new ArrayList<>(ventasExistentes);
         String[] lineaVentas = ventasFormulario.split("\n");
-        ArrayList<Venta> ventas = new ArrayList<>();
         boolean seCruzo;
 
         for (String lineaVenta : lineaVentas) {
